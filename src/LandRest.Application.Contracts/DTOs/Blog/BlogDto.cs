@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using LandRest.DTOs.BlogUser;
+using LandRest.DTOs.AppUser;
 using Volo.Abp.Application.Dtos;
 
 namespace LandRest.DTOs.Blog
@@ -13,6 +13,6 @@ namespace LandRest.DTOs.Blog
         [Required]
         public string SiteLink { get; set; }
         public string Secret { get; set; }
-        public List<BlogUserDto> BlogUsers { get; set; }
+        public List<AppUserDto> BlogUsers { get; set; }
     }
 }

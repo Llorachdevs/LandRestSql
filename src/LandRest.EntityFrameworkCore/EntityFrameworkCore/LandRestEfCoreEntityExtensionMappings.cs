@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.Threading;
@@ -56,7 +57,9 @@ namespace LandRest.EntityFrameworkCore
                     .MapEfCoreProperty<IdentityUser, string>(
                         "SiteLink")
                     .MapEfCoreProperty<IdentityUser, string>(
-                        "CvLink");
+                        "CvLink")
+                    .MapEfCoreProperty<IdentityUser, Guid>(
+                        "BlogId");
             });
         }
     }

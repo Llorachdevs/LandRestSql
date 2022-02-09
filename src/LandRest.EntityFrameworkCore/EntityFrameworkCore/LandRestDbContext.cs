@@ -74,16 +74,6 @@ namespace LandRest.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
             /* Include modules to your migration db context */
-            
-            // builder.ConfigurePermissionManagement();
-            // builder.ConfigureSettingManagement();
-            // builder.ConfigureBackgroundJobs();
-            // builder.ConfigureAuditLogging();
-            // builder.ConfigureIdentity();
-            // builder.ConfigureIdentityServer();
-            // builder.ConfigureFeatureManagement();
-            // builder.ConfigureTenantManagement();
-
 
             /* Configure your own tables/entities inside here */
 
@@ -103,7 +93,7 @@ namespace LandRest.EntityFrameworkCore
                 entity.ToTable(AbpIdentityDbProperties.DbTablePrefix + "Users");
                 entity.ConfigureByConvention();
                 entity.ConfigureAbpUser();
-            
+
                 entity.HasOne(e => e.Blog)
                     .WithMany(e => e.Users)
                     .HasForeignKey(e => e.BlogId);
@@ -119,67 +109,14 @@ namespace LandRest.EntityFrameworkCore
                 entity.Property(e => e.SecondSurname);
                 entity.Property(e => e.CvLink);
                 entity.Property(e => e.SiteLink);
+                entity.Property(e => e.Articles);
+                entity.Property(e => e.Blog);
+                entity.Property(e => e.BlogId);
+                entity.Property(e => e.Comments);
+                builder.Entity<AppUser>().Ignore(x => x.ExtraProperties);
             });
 
-            builder.Entity<Blog>(entity =>
-            {
-                // entity.Ignore(e => e.ExtraProperties);
-                entity.ToTable("Blogs");
-                entity.Property(e => e.SiteLink)
-                    .IsRequired()
-                    .HasMaxLength(200);
-                entity.HasIndex(e => e.SiteLink)
-                    .IsUnique();
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
-                entity.Property(b => b.Secret)
-                    .HasMaxLength(150);
-                entity.ConfigureByConvention();
-            });
-            
-            builder.Entity<Article>(entity =>
-            {
-                // entity.Ignore(e => e.ExtraProperties);
-                entity.ToTable("Articles");
-                entity.Property(e => e.Image)
-                    .IsRequired()
-                    .HasMaxLength(200);
-                entity.Property(e => e.UserEmail)
-                    .IsRequired();
-                entity.Property(e => e.ArticleLink)
-                    .IsRequired()
-                    .HasMaxLength(200);
-                entity.HasIndex(e => e.ArticleLink)
-                    .IsUnique();
-                entity.Property(ba => ba.Tittle)
-                    .IsRequired();
-                entity.HasMany(e => e.Comments)
-                    .WithOne(e => e.Article)
-                    .HasForeignKey(e => e.ArticleId);
-                entity.ConfigureByConvention();
-            });
-            
-            builder.Entity<Comment>(entity =>
-            {
-                // entity.Ignore(e => e.ExtraProperties);
-                entity.ToTable("Comments");
-                entity.Property(e => e.Text)
-                    .IsRequired();
-                entity.Property(e => e.IpAddress)
-                    .IsRequired();
-                entity.Property(e => e.Published)
-                    .IsRequired();
-                entity.Property(e => e.IpAddress)
-                    .HasMaxLength(15);
-                entity.ConfigureByConvention();
-            });
-            
-            foreach (var foreignKey in builder.Model.GetEntityTypes()
-                         .SelectMany(e => e.GetForeignKeys()))
-            {
-                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
-            }
+            builder.ConfigureLandRestEntities();
         }
     }
 }

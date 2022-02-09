@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using LandRest.DTOs.BlogArticleComment;
-using LandRest.DTOs.BlogUser;
+using LandRest.DTOs.AppUser;
+using LandRest.DTOs.Comment;
 using Volo.Abp.Application.Dtos;
 
 namespace LandRest.DTOs.BlogArticle
 {
-    public class BlogArticleDto: AuditedEntityDto<Guid>
+    public class ArticleDto: AuditedEntityDto<Guid>
     {
         // public DTO_Blog_User User { get; set; }
         //public int Blog_User_ID { get; set; }
@@ -17,13 +17,13 @@ namespace LandRest.DTOs.BlogArticle
         public int Likes { get; set; }
         public int VisitCount { get;set; }
         // public List<DTO_Blog_Visit> Visits { get; set; }
-        public List<BlogArticleCommentDto> Comments { get; set; }
-        public BlogUserDto User { get; set; }
+        public List<CommentDto> Comments { get; set; }
+        public AppUserDto User { get; set; }
 
 
-        public BlogArticleDto()
+        public ArticleDto()
         {
-            Comments = new List<BlogArticleCommentDto>();
+            Comments = new List<CommentDto>();
         }
     }
     

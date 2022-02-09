@@ -12,14 +12,14 @@ using Volo.Abp.Domain.Repositories;
 
 namespace LandRest.SRVs;
 
-public class ArticleAppService : CrudAppService<
+public class ArticlesAppService : CrudAppService<
     Article,
-    BlogArticleDto,
+    ArticleDto,
     Guid,
     PagedAndSortedResultRequestDto,
-    CreateUpdateBlogArticleDto>, IServiceArticle
+    CreateUpdateArticleDto>, IServiceArticle
 {
-    public ArticleAppService(IRepository<Article, Guid> repository) : base(repository)
+    public ArticlesAppService(IRepository<Article, Guid> repository) : base(repository)
     {
         /*async Task<ActionResult<List<BlogArticle>>> GetArticlesByLala()
         {
@@ -28,7 +28,7 @@ public class ArticleAppService : CrudAppService<
     }
     
     [HttpGet]
-    public async Task<IEnumerable<BlogArticleDto>> GetArticlesFromUser([FromHeader]string userEmail)
+    public async Task<IEnumerable<ArticleDto>> GetArticlesFromUser([FromHeader]string userEmail)
     {
         var queryable = await Repository.WithDetailsAsync(e => e.User.Email == userEmail);
         List<Article> blogArticles = queryable.ToList();

@@ -6,10 +6,10 @@ namespace LandRest.DTOs.BlogArticle;
 
 public interface IServiceArticle:
     ICrudAppService<
-        BlogArticleDto,
+        ArticleDto,
         Guid,
         PagedAndSortedResultRequestDto,
-        CreateUpdateBlogArticleDto>
+        CreateUpdateArticleDto>
 {
     
 }

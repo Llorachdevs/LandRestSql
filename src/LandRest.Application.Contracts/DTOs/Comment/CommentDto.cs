@@ -1,9 +1,9 @@
 using System;
 using Volo.Abp.Application.Dtos;
 
-namespace LandRest.DTOs.BlogArticleComment
+namespace LandRest.DTOs.Comment
 {
-    public class BlogArticleCommentDto: AuditedEntityDto<Guid>
+    public class CommentDto: AuditedEntityDto<Guid>
     {
         //public int Article_Id { get; set; }
         //public DTO_Blog_Article Article { get; set; }

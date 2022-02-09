@@ -3,7 +3,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace LandRest.DTOs.BlogArticle;
 
-public class CreateUpdateBlogArticleDto: EntityDto<Guid>
+public class CreateUpdateArticleDto: EntityDto<Guid>
 {
     public string ArticleLink { get; set; }
     public DateTime PublishDate { get; set; }

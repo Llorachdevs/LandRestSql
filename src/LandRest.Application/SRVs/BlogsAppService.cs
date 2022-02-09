@@ -11,7 +11,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace LandRest.SRVs;
 
-public class BlogAppService : CrudAppService<
+public class BlogsAppService : CrudAppService<
 Blog,
 BlogDto,
 Guid,
@@ -19,7 +19,7 @@ PagedAndSortedResultRequestDto,
 CreateUpdateBlogDto
 >, IServiceBlog
 {
-    public BlogAppService(IRepository<Blog, Guid> repository) : base(repository)
+    public BlogsAppService(IRepository<Blog, Guid> repository) : base(repository)
     {
     }
 
