@@ -257,9 +257,10 @@ namespace LandRest.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     LockoutEnabled = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     AccessFailedCount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    CvLink = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
-                    SecondLastName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
-                    SecondName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
+                    CvLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecondName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    SecondSurname = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    SiteLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -273,27 +274,6 @@ namespace LandRest.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Blogs",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SiteLink = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Secret = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Blogs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -503,7 +483,7 @@ namespace LandRest.Migrations
                         column: x => x.AuditLogId,
                         principalTable: "AbpAuditLogs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -528,7 +508,7 @@ namespace LandRest.Migrations
                         column: x => x.AuditLogId,
                         principalTable: "AbpAuditLogs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -549,13 +529,13 @@ namespace LandRest.Migrations
                         column: x => x.OrganizationUnitId,
                         principalTable: "AbpOrganizationUnits",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AbpOrganizationUnitRoles_AbpRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AbpRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -576,7 +556,7 @@ namespace LandRest.Migrations
                         column: x => x.RoleId,
                         principalTable: "AbpRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -595,7 +575,7 @@ namespace LandRest.Migrations
                         column: x => x.TenantId,
                         principalTable: "AbpTenants",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -616,7 +596,7 @@ namespace LandRest.Migrations
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -637,7 +617,7 @@ namespace LandRest.Migrations
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -658,13 +638,13 @@ namespace LandRest.Migrations
                         column: x => x.OrganizationUnitId,
                         principalTable: "AbpOrganizationUnits",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AbpUserOrganizationUnits_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -683,13 +663,13 @@ namespace LandRest.Migrations
                         column: x => x.RoleId,
                         principalTable: "AbpRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AbpUserRoles_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -710,48 +690,7 @@ namespace LandRest.Migrations
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BlogUsers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IdentityUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SecondName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstLastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SecondLastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BornDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false),
-                    SiteLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CvLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Blog_User", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BlogUsers_AbpUsers_IdentityUserId",
-                        column: x => x.IdentityUserId,
-                        principalTable: "AbpUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BlogUsers_Blogs_Id",
-                        column: x => x.Id,
-                        principalTable: "Blogs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -769,7 +708,7 @@ namespace LandRest.Migrations
                         column: x => x.ApiResourceId,
                         principalTable: "IdentityServerApiResources",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -788,7 +727,7 @@ namespace LandRest.Migrations
                         column: x => x.ApiResourceId,
                         principalTable: "IdentityServerApiResources",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -806,7 +745,7 @@ namespace LandRest.Migrations
                         column: x => x.ApiResourceId,
                         principalTable: "IdentityServerApiResources",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -827,7 +766,7 @@ namespace LandRest.Migrations
                         column: x => x.ApiResourceId,
                         principalTable: "IdentityServerApiResources",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -845,7 +784,7 @@ namespace LandRest.Migrations
                         column: x => x.ApiScopeId,
                         principalTable: "IdentityServerApiScopes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -864,7 +803,7 @@ namespace LandRest.Migrations
                         column: x => x.ApiScopeId,
                         principalTable: "IdentityServerApiScopes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -883,7 +822,7 @@ namespace LandRest.Migrations
                         column: x => x.ClientId,
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -901,7 +840,7 @@ namespace LandRest.Migrations
                         column: x => x.ClientId,
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -919,7 +858,7 @@ namespace LandRest.Migrations
                         column: x => x.ClientId,
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -937,7 +876,7 @@ namespace LandRest.Migrations
                         column: x => x.ClientId,
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -955,7 +894,7 @@ namespace LandRest.Migrations
                         column: x => x.ClientId,
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -974,7 +913,7 @@ namespace LandRest.Migrations
                         column: x => x.ClientId,
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -992,7 +931,7 @@ namespace LandRest.Migrations
                         column: x => x.ClientId,
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1010,7 +949,7 @@ namespace LandRest.Migrations
                         column: x => x.ClientId,
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1031,7 +970,7 @@ namespace LandRest.Migrations
                         column: x => x.ClientId,
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1049,7 +988,7 @@ namespace LandRest.Migrations
                         column: x => x.IdentityResourceId,
                         principalTable: "IdentityServerIdentityResources",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1068,7 +1007,7 @@ namespace LandRest.Migrations
                         column: x => x.IdentityResourceId,
                         principalTable: "IdentityServerIdentityResources",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1090,104 +1029,6 @@ namespace LandRest.Migrations
                         name: "FK_AbpEntityPropertyChanges_AbpEntityChanges_EntityChangeId",
                         column: x => x.EntityChangeId,
                         principalTable: "AbpEntityChanges",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BlogArticles",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ArticleLink = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    PublishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Tittle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Likes = table.Column<int>(type: "int", nullable: false),
-                    VisitCount = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogArticles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BlogArticles_BlogUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "BlogUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BlogArticleComments",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Published = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ArticleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IpAddress = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogArticleComments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BlogArticleComments_BlogArticles_ArticleId",
-                        column: x => x.ArticleId,
-                        principalTable: "BlogArticles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_BlogArticleComments_BlogUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "BlogUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BlogVisits",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IpAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VisitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CountryCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VisitedResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    BlogArticleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogVisits", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BlogVisits_BlogArticles_BlogArticleId",
-                        column: x => x.BlogArticleId,
-                        principalTable: "BlogArticles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1345,43 +1186,6 @@ namespace LandRest.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BlogArticleComments_ArticleId",
-                table: "BlogArticleComments",
-                column: "ArticleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlogArticleComments_UserId",
-                table: "BlogArticleComments",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlogArticles_ArticleLink",
-                table: "BlogArticles",
-                column: "ArticleLink",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlogArticles_UserId",
-                table: "BlogArticles",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Blogs_SiteLink",
-                table: "Blogs",
-                column: "SiteLink",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlogUsers_IdentityUserId",
-                table: "BlogUsers",
-                column: "IdentityUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlogVisits_BlogArticleId",
-                table: "BlogVisits",
-                column: "BlogArticleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_IdentityServerClients_ClientId",
                 table: "IdentityServerClients",
                 column: "ClientId");
@@ -1472,12 +1276,6 @@ namespace LandRest.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BlogArticleComments");
-
-            migrationBuilder.DropTable(
-                name: "BlogVisits");
-
-            migrationBuilder.DropTable(
                 name: "IdentityServerApiResourceClaims");
 
             migrationBuilder.DropTable(
@@ -1547,7 +1345,7 @@ namespace LandRest.Migrations
                 name: "AbpRoles");
 
             migrationBuilder.DropTable(
-                name: "BlogArticles");
+                name: "AbpUsers");
 
             migrationBuilder.DropTable(
                 name: "IdentityServerApiResources");
@@ -1563,15 +1361,6 @@ namespace LandRest.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpAuditLogs");
-
-            migrationBuilder.DropTable(
-                name: "BlogUsers");
-
-            migrationBuilder.DropTable(
-                name: "AbpUsers");
-
-            migrationBuilder.DropTable(
-                name: "Blogs");
         }
     }
 }

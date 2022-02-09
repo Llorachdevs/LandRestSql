@@ -11,7 +11,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace LandRest.Migrations
 {
     [DbContext(typeof(LandRestDbContext))]
-    [Migration("20220126191237_Initial")]
+    [Migration("20220209024021_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,347 +20,8 @@ namespace LandRest.Migrations
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.SqlServer)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.13")
+                .HasAnnotation("ProductVersion", "5.0.14")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("LandRest.Blogs.Blog", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Secret")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("SiteLink")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SiteLink")
-                        .IsUnique();
-
-                    b.ToTable("Blogs");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogArticle", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ArticleLink")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PublishDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Tittle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("VisitCount")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArticleLink")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("BlogArticles");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogArticleComment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ArticleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<string>("IpAddress")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<DateTime>("Published")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArticleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("BlogArticleComments");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogUser", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("BornDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<string>("CvLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstLastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("IdentityUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SecondLastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SecondName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SiteLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id")
-                        .HasName("PK_Blog_User");
-
-                    b.HasIndex("IdentityUserId");
-
-                    b.ToTable("BlogUsers");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogVisit", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("BlogArticleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CountryCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<string>("IpAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<DateTime>("VisitDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("VisitedResource")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BlogArticleId");
-
-                    b.ToTable("BlogVisits");
-                });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
                 {
@@ -949,8 +610,7 @@ namespace LandRest.Migrations
                         .HasColumnName("CreatorId");
 
                     b.Property<string>("CvLink")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("DeleterId")
                         .HasColumnType("uniqueidentifier")
@@ -1038,19 +698,22 @@ namespace LandRest.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("PhoneNumberConfirmed");
 
-                    b.Property<string>("SecondLastName")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
-
                     b.Property<string>("SecondName")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("SecondSurname")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("SecurityStamp")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)")
                         .HasColumnName("SecurityStamp");
+
+                    b.Property<string>("SiteLink")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
                         .HasMaxLength(64)
@@ -2281,66 +1944,12 @@ namespace LandRest.Migrations
                     b.ToTable("AbpTenantConnectionStrings");
                 });
 
-            modelBuilder.Entity("LandRest.Blogs.BlogArticle", b =>
-                {
-                    b.HasOne("LandRest.Blogs.BlogUser", "User")
-                        .WithMany("Articles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogArticleComment", b =>
-                {
-                    b.HasOne("LandRest.Blogs.BlogArticle", "Article")
-                        .WithMany("Comments")
-                        .HasForeignKey("ArticleId");
-
-                    b.HasOne("LandRest.Blogs.BlogUser", "User")
-                        .WithMany("Comments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Article");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogUser", b =>
-                {
-                    b.HasOne("LandRest.Blogs.Blog", "Blog")
-                        .WithMany("Users")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "IdentityUser")
-                        .WithMany()
-                        .HasForeignKey("IdentityUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Blog");
-
-                    b.Navigation("IdentityUser");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogVisit", b =>
-                {
-                    b.HasOne("LandRest.Blogs.BlogArticle", null)
-                        .WithMany("Visits")
-                        .HasForeignKey("BlogArticleId");
-                });
-
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
                 {
                     b.HasOne("Volo.Abp.AuditLogging.AuditLog", null)
                         .WithMany("Actions")
                         .HasForeignKey("AuditLogId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2349,7 +1958,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.AuditLogging.AuditLog", null)
                         .WithMany("EntityChanges")
                         .HasForeignKey("AuditLogId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2358,7 +1967,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.AuditLogging.EntityChange", null)
                         .WithMany("PropertyChanges")
                         .HasForeignKey("EntityChangeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2367,7 +1976,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.Identity.IdentityRole", null)
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2376,7 +1985,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.Identity.IdentityUser", null)
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2385,7 +1994,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.Identity.IdentityUser", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2394,13 +2003,13 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.Identity.OrganizationUnit", null)
                         .WithMany()
                         .HasForeignKey("OrganizationUnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Volo.Abp.Identity.IdentityUser", null)
                         .WithMany("OrganizationUnits")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2409,13 +2018,13 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Volo.Abp.Identity.IdentityUser", null)
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2424,7 +2033,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.Identity.IdentityUser", null)
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2432,7 +2041,8 @@ namespace LandRest.Migrations
                 {
                     b.HasOne("Volo.Abp.Identity.OrganizationUnit", null)
                         .WithMany()
-                        .HasForeignKey("ParentId");
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.OrganizationUnitRole", b =>
@@ -2440,13 +2050,13 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.Identity.OrganizationUnit", null)
                         .WithMany("Roles")
                         .HasForeignKey("OrganizationUnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Volo.Abp.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2455,7 +2065,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.ApiResources.ApiResource", null)
                         .WithMany("UserClaims")
                         .HasForeignKey("ApiResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2464,7 +2074,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.ApiResources.ApiResource", null)
                         .WithMany("Properties")
                         .HasForeignKey("ApiResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2473,7 +2083,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.ApiResources.ApiResource", null)
                         .WithMany("Scopes")
                         .HasForeignKey("ApiResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2482,7 +2092,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.ApiResources.ApiResource", null)
                         .WithMany("Secrets")
                         .HasForeignKey("ApiResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2491,7 +2101,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.ApiScopes.ApiScope", null)
                         .WithMany("UserClaims")
                         .HasForeignKey("ApiScopeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2500,7 +2110,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.ApiScopes.ApiScope", null)
                         .WithMany("Properties")
                         .HasForeignKey("ApiScopeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2509,7 +2119,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.Clients.Client", null)
                         .WithMany("Claims")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2518,7 +2128,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.Clients.Client", null)
                         .WithMany("AllowedCorsOrigins")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2527,7 +2137,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.Clients.Client", null)
                         .WithMany("AllowedGrantTypes")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2536,7 +2146,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.Clients.Client", null)
                         .WithMany("IdentityProviderRestrictions")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2545,7 +2155,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.Clients.Client", null)
                         .WithMany("PostLogoutRedirectUris")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2554,7 +2164,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.Clients.Client", null)
                         .WithMany("Properties")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2563,7 +2173,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.Clients.Client", null)
                         .WithMany("RedirectUris")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2572,7 +2182,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.Clients.Client", null)
                         .WithMany("AllowedScopes")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2581,7 +2191,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.Clients.Client", null)
                         .WithMany("ClientSecrets")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2590,7 +2200,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.IdentityResources.IdentityResource", null)
                         .WithMany("UserClaims")
                         .HasForeignKey("IdentityResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2599,7 +2209,7 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.IdentityServer.IdentityResources.IdentityResource", null)
                         .WithMany("Properties")
                         .HasForeignKey("IdentityResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -2608,27 +2218,8 @@ namespace LandRest.Migrations
                     b.HasOne("Volo.Abp.TenantManagement.Tenant", null)
                         .WithMany("ConnectionStrings")
                         .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.Blog", b =>
-                {
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogArticle", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("Visits");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogUser", b =>
-                {
-                    b.Navigation("Articles");
-
-                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

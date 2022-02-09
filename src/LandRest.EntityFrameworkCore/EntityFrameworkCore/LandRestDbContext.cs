@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Linq;
 using LandRest.Blogs;
+using LandRest.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -14,20 +18,30 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Abp.Users.EntityFrameworkCore;
 
 namespace LandRest.EntityFrameworkCore
 {
-    [ReplaceDbContext(typeof(IIdentityDbContext))]
-    [ReplaceDbContext(typeof(ITenantManagementDbContext))]
+    // [ReplaceDbContext(typeof(IIdentityDbContext))]
+    // [ReplaceDbContext(typeof(ITenantManagementDbContext))]
     [ConnectionStringName("Default")]
     public class LandRestDbContext :
-        AbpDbContext<LandRestDbContext>,
-        IIdentityDbContext,
-        ITenantManagementDbContext
+        AbpDbContext<LandRestDbContext>
     {
         /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
         #region Entities from the modules
+        
+        // public DbSet<IdentityUser> Users { get; }
+        // public DbSet<IdentityRole> Roles { get; }
+        // public DbSet<IdentityClaimType> ClaimTypes { get; }
+        // public DbSet<OrganizationUnit> OrganizationUnits { get; }
+        // public DbSet<IdentitySecurityLog> SecurityLogs { get; }
+        // public DbSet<IdentityLinkUser> LinkUsers { get; }
+        // public DbSet<Tenant> Tenants { get; }
+        // public DbSet<TenantConnectionString> TenantConnectionStrings { get; }
+        
+        #endregion
 
         /* Notice: We only implemented IIdentityDbContext and ITenantManagementDbContext
          * and replaced them for this DbContext. This allows you to perform JOIN
@@ -40,32 +54,17 @@ namespace LandRest.EntityFrameworkCore
          * uses this DbContext on runtime. Otherwise, it will use its own DbContext class.
          */
 
-        //Identity
-        public DbSet<IdentityUser> Users { get; set; }
-        public DbSet<IdentityRole> Roles { get; set; }
-        public DbSet<IdentityClaimType> ClaimTypes { get; set; }
-        public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
-        public DbSet<IdentitySecurityLog> SecurityLogs { get; set; }
-        public DbSet<IdentityLinkUser> LinkUsers { get; set; }
-
-        // Tenant Management
-        public DbSet<Tenant> Tenants { get; set; }
-        public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
-
-
-        #region LlorachdevsDbSets
-        
-        public DbSet<Blog> DbBlogs { get; set; }
-        public DbSet<BlogUser> BlogUsers { get; set; }
-        public DbSet<BlogArticle> DbArticles { get; set; }
-
-        public DbSet<BlogArticleComment> DbComments { get; set; }
-
-        public DbSet<BlogVisit> DbVisits { get; set; }
-
-        #endregion
-
-        #endregion
+        // #region LlorachdevsDbSets
+        //
+        // public DbSet<Blog> DbBlogs { get; set; }
+        // public DbSet<AppUser> Users { get; set; }
+        // public DbSet<BlogArticle> DbArticles { get; set; }
+        //
+        // public DbSet<BlogArticleComment> DbComments { get; set; }
+        //
+        // public DbSet<BlogVisit> DbVisits { get; set; }
+        //
+        // #endregion
 
         public LandRestDbContext(DbContextOptions<LandRestDbContext> options)
             : base(options)
@@ -75,17 +74,16 @@ namespace LandRest.EntityFrameworkCore
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             /* Include modules to your migration db context */
-
-            builder.ConfigurePermissionManagement();
-            builder.ConfigureSettingManagement();
-            builder.ConfigureBackgroundJobs();
-            builder.ConfigureAuditLogging();
-            builder.ConfigureIdentity();
-            builder.ConfigureIdentityServer();
-            builder.ConfigureFeatureManagement();
-            builder.ConfigureTenantManagement();
+            
+            // builder.ConfigurePermissionManagement();
+            // builder.ConfigureSettingManagement();
+            // builder.ConfigureBackgroundJobs();
+            // builder.ConfigureAuditLogging();
+            // builder.ConfigureIdentity();
+            // builder.ConfigureIdentityServer();
+            // builder.ConfigureFeatureManagement();
+            // builder.ConfigureTenantManagement();
 
 
             /* Configure your own tables/entities inside here */
@@ -99,39 +97,45 @@ namespace LandRest.EntityFrameworkCore
 
             // AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-            builder.Entity<BlogUser>(entity =>
+            builder.Entity<AppUser>(entity =>
             {
-                entity.ToTable("BlogUsers");
-                entity.HasKey(e => e.Id)
-                    .HasName("PK_Blog_User");
+                entity.ToTable(AbpIdentityDbProperties.DbTablePrefix + "Users");
+                entity.ConfigureByConvention();
+                entity.ConfigureAbpUser();
+                
                 entity.HasOne(e => e.Blog)
                     .WithMany(e => e.Users)
-                    .HasForeignKey(e => e.Id);
+                    .HasForeignKey(e => e.BlogId);
                 entity.HasMany(e => e.Articles)
                     .WithOne(e => e.User)
                     .HasForeignKey(e => e.UserId);
                 entity.HasMany(e => e.Comments)
                     .WithOne(e => e.User)
                     .HasForeignKey(e => e.UserId);
-                entity.Property(e => e.FirstName)
+                entity.Property(e => e.Name)
                     .IsRequired();
-                entity.Property(e => e.FirstLastName)
+                entity.Property(e => e.Surname)
                     .IsRequired();
-                entity.Property(e => e.RoleId)
-                    .IsRequired();
+                entity.Property(e => e.SecondName);
+                entity.Property(e => e.SecondSurname);
+                entity.Property(e => e.CvLink);
+                entity.Property(e => e.SiteLink);
             });
-
+            
             builder.Entity<BlogVisit>(entity =>
             {
+                // entity.Ignore(e => e.ExtraProperties);
                 entity.ToTable("BlogVisits");
                 entity.Property(e => e.VisitDate)
                     .IsRequired();
                 entity.Property(e => e.IpAddress)
                     .IsRequired();
+                entity.ConfigureByConvention();
             });
-
+            
             builder.Entity<Blog>(entity =>
             {
+                // entity.Ignore(e => e.ExtraProperties);
                 entity.ToTable("Blogs");
                 entity.Property(e => e.SiteLink)
                     .IsRequired()
@@ -143,10 +147,12 @@ namespace LandRest.EntityFrameworkCore
                     .HasMaxLength(100);
                 entity.Property(b => b.Secret)
                     .HasMaxLength(150);
+                entity.ConfigureByConvention();
             });
-
+            
             builder.Entity<BlogArticle>(entity =>
             {
+                // entity.Ignore(e => e.ExtraProperties);
                 entity.ToTable("BlogArticles");
                 entity.Property(e => e.Image)
                     .IsRequired()
@@ -160,10 +166,15 @@ namespace LandRest.EntityFrameworkCore
                     .IsUnique();
                 entity.Property(ba => ba.Tittle)
                     .IsRequired();
+                entity.HasMany(e => e.Comments)
+                    .WithOne(e => e.Article)
+                    .HasForeignKey(e => e.ArticleId);
+                entity.ConfigureByConvention();
             });
-
+            
             builder.Entity<BlogArticleComment>(entity =>
             {
+                // entity.Ignore(e => e.ExtraProperties);
                 entity.ToTable("BlogArticleComments");
                 entity.Property(e => e.Comment)
                     .IsRequired();
@@ -173,7 +184,14 @@ namespace LandRest.EntityFrameworkCore
                     .IsRequired();
                 entity.Property(e => e.IpAddress)
                     .HasMaxLength(15);
+                entity.ConfigureByConvention();
             });
+            
+            foreach (var foreignKey in builder.Model.GetEntityTypes()
+                         .SelectMany(e => e.GetForeignKeys()))
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
         }
     }
 }
