@@ -6,7 +6,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace LandRest.Blogs
 {
-    public class BlogArticle: AuditedAggregateRoot<Guid>, ISoftDelete
+    public class Article: AuditedAggregateRoot<Guid>, ISoftDelete
     {
         public string ArticleLink { get; set; }
         public DateTime PublishDate { get; set; }
@@ -17,17 +17,13 @@ namespace LandRest.Blogs
         
         public bool IsDeleted { get; set; }
 
-
-        
-        public List<BlogVisit> Visits { get; set; }
-
         public string UserEmail { get; set; }
         public Guid UserId { get; set; }
         public AppUser User { get; set; }
         
         public List<BlogArticleComment> Comments { get; set; }
         
-        public BlogArticle( string pArticleLink, string pImage, AppUser pUser)
+        public Article( string pArticleLink, string pImage, AppUser pUser)
         {
             Image = pImage;
             ArticleLink = pArticleLink;
@@ -35,16 +31,14 @@ namespace LandRest.Blogs
             VisitCount = 0;
             User = pUser;
             Comments = new List<BlogArticleComment>();
-            Visits = new List<BlogVisit>();
         }
 
-        public BlogArticle()
+        public Article()
         {
             Comments = new List<BlogArticleComment>();
-            Visits = new List<BlogVisit>();
         }
         
-        public BlogArticle( string pArticleLink, string pImage, AppUser pUser, string pTittle)
+        public Article( string pArticleLink, string pImage, AppUser pUser, string pTittle)
         {
             Image = pImage;
             ArticleLink = pArticleLink;
@@ -53,7 +47,6 @@ namespace LandRest.Blogs
             User = pUser;
             Tittle = pTittle;
             Comments = new List<BlogArticleComment>();
-            Visits = new List<BlogVisit>();
         }
     }
 }

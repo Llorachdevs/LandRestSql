@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using LandRest.Articles;
 using LandRest.Blogs;
+using LandRest.Comments;
 using LandRest.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -29,9 +31,9 @@ namespace LandRest.EntityFrameworkCore
         AbpDbContext<LandRestDbContext>
     {
         /* Add DbSet properties for your Aggregate Roots / Entities here. */
-
+        
         #region Entities from the modules
-
+        
         // public DbSet<IdentityUser> Users { get; }
         // public DbSet<IdentityRole> Roles { get; }
         // public DbSet<IdentityClaimType> ClaimTypes { get; }
@@ -56,13 +58,10 @@ namespace LandRest.EntityFrameworkCore
 
         #region LlorachdevsDbSets
         
-        public DbSet<Blog> DbBlogs { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
         public DbSet<AppUser> Users { get; set; }
-        public DbSet<BlogArticle> DbArticles { get; set; }
-        
-        public DbSet<BlogArticleComment> DbComments { get; set; }
-        
-        public DbSet<BlogVisit> DbVisits { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         
         #endregion
 
@@ -104,7 +103,7 @@ namespace LandRest.EntityFrameworkCore
                 entity.ToTable(AbpIdentityDbProperties.DbTablePrefix + "Users");
                 entity.ConfigureByConvention();
                 entity.ConfigureAbpUser();
-                
+            
                 entity.HasOne(e => e.Blog)
                     .WithMany(e => e.Users)
                     .HasForeignKey(e => e.BlogId);
@@ -116,25 +115,12 @@ namespace LandRest.EntityFrameworkCore
                     .HasForeignKey(e => e.UserId);
                 entity.Property(e => e.Name)
                     .IsRequired();
-                entity.Property(e => e.Surname)
-                    .IsRequired();
                 entity.Property(e => e.SecondName);
                 entity.Property(e => e.SecondSurname);
                 entity.Property(e => e.CvLink);
                 entity.Property(e => e.SiteLink);
             });
-            
-            builder.Entity<BlogVisit>(entity =>
-            {
-                // entity.Ignore(e => e.ExtraProperties);
-                entity.ToTable("BlogVisits");
-                entity.Property(e => e.VisitDate)
-                    .IsRequired();
-                entity.Property(e => e.IpAddress)
-                    .IsRequired();
-                entity.ConfigureByConvention();
-            });
-            
+
             builder.Entity<Blog>(entity =>
             {
                 // entity.Ignore(e => e.ExtraProperties);
@@ -152,10 +138,10 @@ namespace LandRest.EntityFrameworkCore
                 entity.ConfigureByConvention();
             });
             
-            builder.Entity<BlogArticle>(entity =>
+            builder.Entity<Article>(entity =>
             {
                 // entity.Ignore(e => e.ExtraProperties);
-                entity.ToTable("BlogArticles");
+                entity.ToTable("Articles");
                 entity.Property(e => e.Image)
                     .IsRequired()
                     .HasMaxLength(200);
@@ -174,11 +160,11 @@ namespace LandRest.EntityFrameworkCore
                 entity.ConfigureByConvention();
             });
             
-            builder.Entity<BlogArticleComment>(entity =>
+            builder.Entity<Comment>(entity =>
             {
                 // entity.Ignore(e => e.ExtraProperties);
-                entity.ToTable("BlogArticleComments");
-                entity.Property(e => e.Comment)
+                entity.ToTable("Comments");
+                entity.Property(e => e.Text)
                     .IsRequired();
                 entity.Property(e => e.IpAddress)
                     .IsRequired();

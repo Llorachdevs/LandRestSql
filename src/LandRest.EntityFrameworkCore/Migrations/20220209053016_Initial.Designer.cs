@@ -11,8 +11,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace LandRest.Migrations
 {
     [DbContext(typeof(LandRestDbContext))]
-    [Migration("20220209044058_UserEdited")]
-    partial class UserEdited
+    [Migration("20220209053016_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,66 +23,7 @@ namespace LandRest.Migrations
                 .HasAnnotation("ProductVersion", "5.0.14")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("LandRest.Blogs.Blog", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Secret")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("SiteLink")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SiteLink")
-                        .IsUnique();
-
-                    b.ToTable("Blogs");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogArticle", b =>
+            modelBuilder.Entity("LandRest.Articles.Article", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -156,20 +97,75 @@ namespace LandRest.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BlogArticles");
+                    b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("LandRest.Blogs.BlogArticleComment", b =>
+            modelBuilder.Entity("LandRest.Blogs.Blog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Secret")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("SiteLink")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SiteLink")
+                        .IsUnique();
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("LandRest.Comments.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ArticleId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -211,6 +207,10 @@ namespace LandRest.Migrations
                     b.Property<DateTime>("Published")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserEmail")
                         .HasColumnType("nvarchar(max)");
 
@@ -223,70 +223,7 @@ namespace LandRest.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BlogArticleComments");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogVisit", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("BlogArticleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CountryCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<string>("IpAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<DateTime>("VisitDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("VisitedResource")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BlogArticleId");
-
-                    b.ToTable("BlogVisits");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("LandRest.Users.AppUser", b =>
@@ -2281,7 +2218,7 @@ namespace LandRest.Migrations
                     b.ToTable("AbpTenantConnectionStrings");
                 });
 
-            modelBuilder.Entity("LandRest.Blogs.BlogArticle", b =>
+            modelBuilder.Entity("LandRest.Articles.Article", b =>
                 {
                     b.HasOne("LandRest.Users.AppUser", "User")
                         .WithMany("Articles")
@@ -2292,9 +2229,9 @@ namespace LandRest.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LandRest.Blogs.BlogArticleComment", b =>
+            modelBuilder.Entity("LandRest.Comments.Comment", b =>
                 {
-                    b.HasOne("LandRest.Blogs.BlogArticle", "Article")
+                    b.HasOne("LandRest.Articles.Article", "Article")
                         .WithMany("Comments")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2309,14 +2246,6 @@ namespace LandRest.Migrations
                     b.Navigation("Article");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogVisit", b =>
-                {
-                    b.HasOne("LandRest.Blogs.BlogArticle", null)
-                        .WithMany("Visits")
-                        .HasForeignKey("BlogArticleId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("LandRest.Users.AppUser", b =>
@@ -2608,16 +2537,14 @@ namespace LandRest.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("LandRest.Articles.Article", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
             modelBuilder.Entity("LandRest.Blogs.Blog", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("LandRest.Blogs.BlogArticle", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("Visits");
                 });
 
             modelBuilder.Entity("LandRest.Users.AppUser", b =>

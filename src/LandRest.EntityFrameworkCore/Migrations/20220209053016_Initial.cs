@@ -1087,7 +1087,7 @@ namespace LandRest.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BlogArticles",
+                name: "Articles",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -1109,9 +1109,9 @@ namespace LandRest.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BlogArticles", x => x.Id);
+                    table.PrimaryKey("PK_Articles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BlogArticles_AppUser_UserId",
+                        name: "FK_Articles_AppUser_UserId",
                         column: x => x.UserId,
                         principalTable: "AppUser",
                         principalColumn: "Id",
@@ -1119,7 +1119,7 @@ namespace LandRest.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BlogArticleComments",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -1127,7 +1127,7 @@ namespace LandRest.Migrations
                     Published = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ArticleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IpAddress = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -1139,47 +1139,17 @@ namespace LandRest.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BlogArticleComments", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BlogArticleComments_AppUser_UserId",
+                        name: "FK_Comments_AppUser_UserId",
                         column: x => x.UserId,
                         principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BlogArticleComments_BlogArticles_ArticleId",
+                        name: "FK_Comments_Articles_ArticleId",
                         column: x => x.ArticleId,
-                        principalTable: "BlogArticles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BlogVisits",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IpAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VisitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CountryCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VisitedResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    BlogArticleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogVisits", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BlogVisits_BlogArticles_BlogArticleId",
-                        column: x => x.BlogArticleId,
-                        principalTable: "BlogArticles",
+                        principalTable: "Articles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1342,24 +1312,14 @@ namespace LandRest.Migrations
                 column: "BlogId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BlogArticleComments_ArticleId",
-                table: "BlogArticleComments",
-                column: "ArticleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlogArticleComments_UserId",
-                table: "BlogArticleComments",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlogArticles_ArticleLink",
-                table: "BlogArticles",
+                name: "IX_Articles_ArticleLink",
+                table: "Articles",
                 column: "ArticleLink",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_BlogArticles_UserId",
-                table: "BlogArticles",
+                name: "IX_Articles_UserId",
+                table: "Articles",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -1369,9 +1329,14 @@ namespace LandRest.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_BlogVisits_BlogArticleId",
-                table: "BlogVisits",
-                column: "BlogArticleId");
+                name: "IX_Comments_ArticleId",
+                table: "Comments",
+                column: "ArticleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_UserId",
+                table: "Comments",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IdentityServerClients_ClientId",
@@ -1464,10 +1429,7 @@ namespace LandRest.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BlogArticleComments");
-
-            migrationBuilder.DropTable(
-                name: "BlogVisits");
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "IdentityServerApiResourceClaims");
@@ -1542,7 +1504,7 @@ namespace LandRest.Migrations
                 name: "AbpUsers");
 
             migrationBuilder.DropTable(
-                name: "BlogArticles");
+                name: "Articles");
 
             migrationBuilder.DropTable(
                 name: "IdentityServerApiResources");

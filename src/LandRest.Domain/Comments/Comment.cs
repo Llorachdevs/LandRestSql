@@ -16,7 +16,7 @@ namespace LandRest.Blogs
         public  AppUser User { get; set; }
         
         public Guid ArticleId { get; set; }
-        public BlogArticle Article { get; set; }
+        public Article Article { get; set; }
         
         public string Comment { get; set; }
         
