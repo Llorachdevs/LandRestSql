@@ -1,12 +1,13 @@
 using System;
+using LandRest.Articles;
+using LandRest.Blogs;
 using LandRest.Users;
-using Microsoft.AspNetCore.Identity;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace LandRest.Blogs
+namespace LandRest.Comments
 {
-    public class BlogArticleComment: AuditedAggregateRoot<Guid>, ISoftDelete
+    public class Comment: AuditedAggregateRoot<Guid>, ISoftDelete
     {
         public string UserEmail { get; set; }
         public DateTime Published { get; set; }
@@ -18,19 +19,19 @@ namespace LandRest.Blogs
         public Guid ArticleId { get; set; }
         public Article Article { get; set; }
         
-        public string Comment { get; set; }
+        public string Text { get; set; }
         
         public string IpAddress { get; set; }
         
         public bool IsDeleted { get; set; }
 
-        public BlogArticleComment(DateTime pId,string pComment, DateTime pPublished)
+        public Comment(DateTime pId,string pText, DateTime pPublished)
         {
-            Comment = pComment;
+            Text = pText;
             Published = pPublished;
         }
 
-        public BlogArticleComment()
+        public Comment()
         {
         }
 

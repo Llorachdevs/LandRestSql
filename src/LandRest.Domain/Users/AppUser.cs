@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using LandRest.Articles;
 using LandRest.Blogs;
+using LandRest.Comments;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.Users;
 
@@ -39,9 +41,9 @@ public class AppUser : FullAuditedAggregateRoot<Guid>, IUser
     public Guid BlogId { get; set; }
     public Blog Blog { get; set; }
     
-    public List<BlogArticle> Articles { get; set; }
+    public List<Article> Articles { get; set; }
         
-    public List<BlogArticleComment> Comments { get; set; }
+    public List<Comment> Comments { get; set; }
 
     #endregion
 }

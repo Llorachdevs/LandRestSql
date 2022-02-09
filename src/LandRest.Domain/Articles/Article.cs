@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using LandRest.Comments;
 using LandRest.Users;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace LandRest.Blogs
+namespace LandRest.Articles
 {
     public class Article: AuditedAggregateRoot<Guid>, ISoftDelete
     {
@@ -21,7 +22,7 @@ namespace LandRest.Blogs
         public Guid UserId { get; set; }
         public AppUser User { get; set; }
         
-        public List<BlogArticleComment> Comments { get; set; }
+        public List<Comment> Comments { get; set; }
         
         public Article( string pArticleLink, string pImage, AppUser pUser)
         {
@@ -30,12 +31,12 @@ namespace LandRest.Blogs
             Likes = 0;
             VisitCount = 0;
             User = pUser;
-            Comments = new List<BlogArticleComment>();
+            Comments = new List<Comment>();
         }
 
         public Article()
         {
-            Comments = new List<BlogArticleComment>();
+            Comments = new List<Comment>();
         }
         
         public Article( string pArticleLink, string pImage, AppUser pUser, string pTittle)
@@ -46,7 +47,7 @@ namespace LandRest.Blogs
             VisitCount = 0;
             User = pUser;
             Tittle = pTittle;
-            Comments = new List<BlogArticleComment>();
+            Comments = new List<Comment>();
         }
     }
 }
