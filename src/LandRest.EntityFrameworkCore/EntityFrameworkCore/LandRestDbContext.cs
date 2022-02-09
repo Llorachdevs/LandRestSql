@@ -31,7 +31,7 @@ namespace LandRest.EntityFrameworkCore
         /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
         #region Entities from the modules
-        
+
         // public DbSet<IdentityUser> Users { get; }
         // public DbSet<IdentityRole> Roles { get; }
         // public DbSet<IdentityClaimType> ClaimTypes { get; }
@@ -54,17 +54,17 @@ namespace LandRest.EntityFrameworkCore
          * uses this DbContext on runtime. Otherwise, it will use its own DbContext class.
          */
 
-        // #region LlorachdevsDbSets
-        //
-        // public DbSet<Blog> DbBlogs { get; set; }
-        // public DbSet<AppUser> Users { get; set; }
-        // public DbSet<BlogArticle> DbArticles { get; set; }
-        //
-        // public DbSet<BlogArticleComment> DbComments { get; set; }
-        //
-        // public DbSet<BlogVisit> DbVisits { get; set; }
-        //
-        // #endregion
+        #region LlorachdevsDbSets
+        
+        public DbSet<Blog> DbBlogs { get; set; }
+        public DbSet<AppUser> Users { get; set; }
+        public DbSet<BlogArticle> DbArticles { get; set; }
+        
+        public DbSet<BlogArticleComment> DbComments { get; set; }
+        
+        public DbSet<BlogVisit> DbVisits { get; set; }
+        
+        #endregion
 
         public LandRestDbContext(DbContextOptions<LandRestDbContext> options)
             : base(options)
@@ -96,6 +96,8 @@ namespace LandRest.EntityFrameworkCore
             //});
 
             // AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            
+            builder.ConfigureAuditLogging();
 
             builder.Entity<AppUser>(entity =>
             {

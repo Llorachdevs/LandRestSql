@@ -277,6 +277,27 @@ namespace LandRest.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Blogs",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SiteLink = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Secret = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "IdentityServerApiResources",
                 columns: table => new
                 {
@@ -694,6 +715,38 @@ namespace LandRest.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppUser",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SecondName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecondSurname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SiteLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CvLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BlogId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUser", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppUser_Blogs_BlogId",
+                        column: x => x.BlogId,
+                        principalTable: "Blogs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "IdentityServerApiResourceClaims",
                 columns: table => new
                 {
@@ -1033,6 +1086,104 @@ namespace LandRest.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "BlogArticles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ArticleLink = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    PublishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Tittle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Likes = table.Column<int>(type: "int", nullable: false),
+                    VisitCount = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogArticles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlogArticles_AppUser_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BlogArticleComments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Published = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ArticleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IpAddress = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogArticleComments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlogArticleComments_AppUser_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BlogArticleComments_BlogArticles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "BlogArticles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BlogVisits",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IpAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VisitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountryCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VisitedResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    BlogArticleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogVisits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlogVisits_BlogArticles_BlogArticleId",
+                        column: x => x.BlogArticleId,
+                        principalTable: "BlogArticles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AbpAuditLogActions_AuditLogId",
                 table: "AbpAuditLogActions",
@@ -1186,6 +1337,43 @@ namespace LandRest.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AppUser_BlogId",
+                table: "AppUser",
+                column: "BlogId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogArticleComments_ArticleId",
+                table: "BlogArticleComments",
+                column: "ArticleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogArticleComments_UserId",
+                table: "BlogArticleComments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogArticles_ArticleLink",
+                table: "BlogArticles",
+                column: "ArticleLink",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogArticles_UserId",
+                table: "BlogArticles",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Blogs_SiteLink",
+                table: "Blogs",
+                column: "SiteLink",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogVisits_BlogArticleId",
+                table: "BlogVisits",
+                column: "BlogArticleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_IdentityServerClients_ClientId",
                 table: "IdentityServerClients",
                 column: "ClientId");
@@ -1276,6 +1464,12 @@ namespace LandRest.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BlogArticleComments");
+
+            migrationBuilder.DropTable(
+                name: "BlogVisits");
+
+            migrationBuilder.DropTable(
                 name: "IdentityServerApiResourceClaims");
 
             migrationBuilder.DropTable(
@@ -1348,6 +1542,9 @@ namespace LandRest.Migrations
                 name: "AbpUsers");
 
             migrationBuilder.DropTable(
+                name: "BlogArticles");
+
+            migrationBuilder.DropTable(
                 name: "IdentityServerApiResources");
 
             migrationBuilder.DropTable(
@@ -1361,6 +1558,12 @@ namespace LandRest.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpAuditLogs");
+
+            migrationBuilder.DropTable(
+                name: "AppUser");
+
+            migrationBuilder.DropTable(
+                name: "Blogs");
         }
     }
 }

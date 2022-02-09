@@ -2,7 +2,7 @@
 
 namespace LandRest.Migrations
 {
-    public partial class BlogAdded : Migration
+    public partial class UserEdited : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
