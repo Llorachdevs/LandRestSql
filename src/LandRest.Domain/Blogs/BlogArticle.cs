@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LandRest.Users;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
@@ -22,11 +23,11 @@ namespace LandRest.Blogs
 
         public string UserEmail { get; set; }
         public Guid UserId { get; set; }
-        public BlogUser User { get; set; }
+        public AppUser User { get; set; }
         
         public List<BlogArticleComment> Comments { get; set; }
         
-        public BlogArticle( string pArticleLink, string pImage, BlogUser pUser)
+        public BlogArticle( string pArticleLink, string pImage, AppUser pUser)
         {
             Image = pImage;
             ArticleLink = pArticleLink;
@@ -43,7 +44,7 @@ namespace LandRest.Blogs
             Visits = new List<BlogVisit>();
         }
         
-        public BlogArticle( string pArticleLink, string pImage, BlogUser pUser, string pTittle)
+        public BlogArticle( string pArticleLink, string pImage, AppUser pUser, string pTittle)
         {
             Image = pImage;
             ArticleLink = pArticleLink;

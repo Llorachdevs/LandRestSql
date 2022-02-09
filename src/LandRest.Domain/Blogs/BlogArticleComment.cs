@@ -1,4 +1,6 @@
 using System;
+using LandRest.Users;
+using Microsoft.AspNetCore.Identity;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
@@ -11,7 +13,7 @@ namespace LandRest.Blogs
         
         public Guid UserId { get; set; }
         
-        public  BlogUser User { get; set; }
+        public  AppUser User { get; set; }
         
         public Guid ArticleId { get; set; }
         public BlogArticle Article { get; set; }

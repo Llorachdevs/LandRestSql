@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using LandRest.Users;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.Identity;
 
 namespace LandRest.Blogs
 {
@@ -13,24 +15,24 @@ namespace LandRest.Blogs
         
         public bool IsDeleted { get; set; }
         
-        public List<BlogUser> Users { get; set; }
+        public List<AppUser> Users { get; set; }
 
         public Blog( string pName, string pSiteLink)
         {
             SiteLink = pSiteLink;
             Name = pName;
-            Users = new List<BlogUser>();
+            Users = new List<AppUser>();
         }
 
         public Blog()
         {
-            Users = new List<BlogUser>();
+            Users = new List<AppUser>();
         }
 
         public Blog(string link)
         {
             SiteLink = link;
-            Users = new List<BlogUser>();
+            Users = new List<AppUser>();
         }
 
     }

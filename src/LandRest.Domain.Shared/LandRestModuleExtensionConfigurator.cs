@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using LandRest.Blogs;
 using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.Threading;
@@ -69,39 +68,6 @@ namespace LandRest
              * See the documentation for more:
              * https://docs.abp.io/en/abp/latest/Module-Entity-Extensions
              */
-            
-            ObjectExtensionManager.Instance
-                .AddOrUpdateProperty<IdentityUser, string>(
-                    "SecondName",
-                    options =>
-                    {
-                        options.MapEfCore(b => b.HasMaxLength(32));
-                    }
-                );
-                
-            ObjectExtensionManager.Instance
-                .AddOrUpdateProperty<IdentityUser, string>(
-                    "SecondLastName",
-                    options =>
-                    {
-                        options.MapEfCore(b => b.HasMaxLength(32));
-                    }
-                );
-                
-            ObjectExtensionManager.Instance
-                .AddOrUpdateProperty<IdentityUser, string>(
-                    "CvLink",
-                    options =>
-                    {
-                        options.MapEfCore(b => b.HasMaxLength(32));
-                    }
-                );
-                
-            // ObjectExtensionManager.Instance
-            //     .AddOrUpdateProperty<IdentityUser, List<BlogArticle>>("Articles");
-            // ObjectExtensionManager.Instance
-            //     .AddOrUpdateProperty<IdentityUser, List<BlogArticleComment>>("Articles");
-
         }
     }
 }

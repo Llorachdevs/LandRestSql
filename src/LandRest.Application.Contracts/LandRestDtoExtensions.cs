@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using LandRest.Blogs;
 using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.Threading;
@@ -25,20 +24,6 @@ namespace LandRest
                  * See the documentation for more:
                  * https://docs.abp.io/en/abp/latest/Object-Extensions
                  */
-                
-               
-
-                
-                // ObjectExtensionManager.Instance
-                //     .AddOrUpdate<IdentityUser>(options =>
-                //         {
-                //             options.AddOrUpdateProperty<List<BlogArticle>>("Articles");
-                //             options.AddOrUpdateProperty<List<BlogArticleComment>>("Comments");
-                //             options.AddOrUpdateProperty<string>("SecondName");
-                //             options.AddOrUpdateProperty<string>("SecondLastName");
-                //             options.AddOrUpdateProperty<string>("CvLink");
-                //         }
-                //     );
             });
         }
     }
