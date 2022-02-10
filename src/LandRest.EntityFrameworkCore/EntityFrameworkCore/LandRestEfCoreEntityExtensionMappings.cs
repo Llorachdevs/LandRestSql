@@ -41,25 +41,25 @@ namespace LandRest.EntityFrameworkCore
                  * https://docs.abp.io/en/abp/latest/Customizing-Application-Modules-Extending-Entities
                  */
 
-                ObjectExtensionManager.Instance
-                    .MapEfCoreProperty<IdentityUser, string>(
-                        "SecondSurname",
-                        (entityBuilder, propertyBuilder) =>
-                        {
-                            propertyBuilder.HasMaxLength(128);
-                        })
-                    .MapEfCoreProperty<IdentityUser, string>(
-                        "SecondName",
-                        (entityBuilder, propertyBuilder) =>
-                        {
-                            propertyBuilder.HasMaxLength(128);
-                        })
-                    .MapEfCoreProperty<IdentityUser, string>(
-                        "SiteLink")
-                    .MapEfCoreProperty<IdentityUser, string>(
-                        "CvLink")
-                    .MapEfCoreProperty<IdentityUser, Guid>(
-                        "BlogId");
+                // ObjectExtensionManager.Instance
+                //     .MapEfCoreProperty<IdentityUser, string>(
+                //         "SecondSurname",
+                //         (entityBuilder, propertyBuilder) =>
+                //         {
+                //             propertyBuilder.HasMaxLength(128);
+                //         })
+                //     .MapEfCoreProperty<IdentityUser, string>(
+                //         "SecondName",
+                //         (entityBuilder, propertyBuilder) =>
+                //         {
+                //             propertyBuilder.HasMaxLength(128);
+                //         })
+                //     .MapEfCoreProperty<IdentityUser, string>(
+                //         "SiteLink")
+                //     .MapEfCoreProperty<IdentityUser, string>(
+                //         "CvLink")
+                //     .MapEfCoreProperty<IdentityUser, Guid>(
+                //         "BlogId");
             });
         }
     }

@@ -73,26 +73,21 @@ namespace LandRest.EntityFrameworkCore
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            /* Include modules to your migration db context */
 
-            /* Configure your own tables/entities inside here */
-
-            //builder.Entity<YourEntity>(b =>
-            //{
-            //    b.ToTable(LandRestConsts.DbTablePrefix + "YourEntities", LandRestConsts.DbSchema);
-            //    b.ConfigureByConvention(); //auto configure for the base class props
-            //    //...
-            //});
-
-            // AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-            
+            builder.ConfigurePermissionManagement();
+            builder.ConfigureSettingManagement();
+            builder.ConfigureBackgroundJobs();
             builder.ConfigureAuditLogging();
+            builder.ConfigureIdentity();
+            builder.ConfigureIdentityServer();
+            builder.ConfigureFeatureManagement();
 
             builder.Entity<AppUser>(entity =>
             {
                 entity.ToTable(AbpIdentityDbProperties.DbTablePrefix + "Users");
                 entity.ConfigureByConvention();
                 entity.ConfigureAbpUser();
+                entity.HasOne<IdentityUser>().WithOne().HasForeignKey<AppUser>(e => e.Id);
 
                 entity.HasOne(e => e.Blog)
                     .WithMany(e => e.Users)
@@ -109,11 +104,8 @@ namespace LandRest.EntityFrameworkCore
                 entity.Property(e => e.SecondSurname);
                 entity.Property(e => e.CvLink);
                 entity.Property(e => e.SiteLink);
-                entity.Property(e => e.Articles);
-                entity.Property(e => e.Blog);
                 entity.Property(e => e.BlogId);
-                entity.Property(e => e.Comments);
-                builder.Entity<AppUser>().Ignore(x => x.ExtraProperties);
+                // builder.Entity<AppUser>().Ignore(x => x.ExtraProperties);
             });
 
             builder.ConfigureLandRestEntities();
